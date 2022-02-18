@@ -1,10 +1,14 @@
+const { filterQueryGenerator } = require("../lib");
 const catchAsync = require("../lib/catchAsync");
 const UserService = require("../services/user.service");
 
 const userService = new UserService();
 
 const getUsers = catchAsync(async (req, res) => {
-  const data = await userService.getUsers({});
+  const filter = filterQueryGenerator.queryGenerator(req.query.filter);
+  const orderBy = filterQueryGenerator.generateOrderBy(req.query.orderBy);
+
+  const data = await userService.getUsers(filter, orderBy);
   res.send({ data });
 });
 

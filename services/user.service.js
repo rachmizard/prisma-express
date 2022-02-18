@@ -3,13 +3,18 @@ const { prisma } = require("../lib");
 class UserService {
   constructor() {}
 
-  async getUsers(params) {
+  async getUsers(where, orderBy) {
     try {
-      return await prisma.user.findMany({
+      const users = await prisma.user.findMany({
+        where,
+        orderBy,
         include: {
           posts: true,
+          postComment: true,
         },
       });
+
+      return users;
     } catch (error) {
       throw error;
     }

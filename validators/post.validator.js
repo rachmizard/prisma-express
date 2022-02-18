@@ -16,6 +16,14 @@ const CreatePost = object({
   authorId: number(),
 });
 
+const UpdatePost = object({
+  title: size(string(), 10, Infinity),
+  content: string(),
+  published: boolean(),
+  authorId: number(),
+});
+
 module.exports = {
   CreatePost,
+  UpdatePost,
 };
