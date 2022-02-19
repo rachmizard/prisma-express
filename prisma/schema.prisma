@@ -32,12 +32,15 @@ model Post {
 }
 
 model PostComment {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  content   String
-  authorId  Int?
-  postId    Int?
-  author    User?    @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  post      Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  id            Int           @id @default(autoincrement())
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  content       String
+  authorId      Int?
+  postId        Int?
+  postCommentId Int?
+  author        User?         @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  post          Post?         @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postComment   PostComment?  @relation("PostCommentToPostComment", fields: [postCommentId], references: [id], onDelete: Cascade)
+  postComments  PostComment[] @relation("PostCommentToPostComment")
 }

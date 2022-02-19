@@ -17,6 +17,12 @@ const storePost = catchAsync(async (req, res) => {
   res.send({ post });
 });
 
+const getPostDetail = catchAsync(async (req, res) => {
+  const post = await postService.getPostDetail(req.params.id);
+
+  res.send(post);
+});
+
 const updatePost = catchAsync(async (req, res) => {
   const updatedPost = await postService.updatePost(req.params.id, req.body);
   res.send({ updatedPost });
@@ -28,9 +34,34 @@ const deletePost = catchAsync(async (req, res) => {
   res.send({ deletedPost });
 });
 
+const postComment = catchAsync(async (req, res) => {
+  const post = await postService.postComment(req.params.id, req.body);
+  res.send({ post });
+});
+
+const postCommentId = catchAsync(async (req, res) => {
+  const post = await postService.postCommentId(req.params.id, req.body);
+  res.send({ post });
+});
+
+const getPostCommentDetail = catchAsync(async (req, res) => {
+  const postComment = await postService.postCommentDetail(req.params.id);
+  res.send(postComment);
+});
+
+const deletePostComment = catchAsync(async (req, res) => {
+  const deletedPostComment = await postService.deletePostComment(req.params.id);
+  res.send(deletedPostComment);
+});
+
 module.exports = {
   storePost,
   getPosts,
   updatePost,
   deletePost,
+  postComment,
+  postCommentId,
+  getPostCommentDetail,
+  getPostDetail,
+  deletePostComment,
 };

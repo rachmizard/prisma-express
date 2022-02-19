@@ -10,7 +10,32 @@ class PostService {
         orderBy,
         include: {
           author: true,
+          postComment: {
+            include: {
+              postComment: true,
+            },
+          },
         },
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getPostDetail(id) {
+    try {
+      return await prisma.post.findUnique({
+        where: {
+          id: Number(id),
+        },
+        include: {
+          postComment: {
+            include: {
+              postComments: true,
+            },
+          },
+        },
+        rejectOnNotFound: true,
       });
     } catch (error) {
       throw error;
@@ -65,6 +90,84 @@ class PostService {
         include: {
           author: true,
           postComment: true,
+        },
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async postComment(id, body) {
+    try {
+      return await prisma.postComment.create({
+        data: {
+          content: body.content,
+          author: {
+            connect: {
+              id: Number(body.authorId),
+            },
+          },
+          post: {
+            connect: {
+              id: Number(id),
+            },
+          },
+        },
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async postCommentId(id, body) {
+    try {
+      return await prisma.postComment.create({
+        data: {
+          content: body.content,
+          author: {
+            connect: {
+              id: Number(body.authorId),
+            },
+          },
+          postComment: {
+            connect: {
+              id: Number(id),
+            },
+          },
+        },
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async postCommentDetail(id) {
+    try {
+      return await prisma.postComment.findUnique({
+        where: {
+          id: Number(id),
+        },
+        include: {
+          post: true,
+          postComments: {
+            include: {
+              postComments: true,
+            },
+          },
+          postComment: true,
+        },
+        rejectOnNotFound: true,
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async deletePostComment(id) {
+    try {
+      return await prisma.postComment.delete({
+        where: {
+          id: Number(id),
         },
       });
     } catch (error) {

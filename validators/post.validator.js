@@ -23,7 +23,14 @@ const UpdatePost = object({
   authorId: number(),
 });
 
+const CreateComment = object({
+  content: string(),
+  postId: optional(number()),
+  authorId: number(),
+});
+
 module.exports = {
   CreatePost,
   UpdatePost,
+  CreateComment,
 };
