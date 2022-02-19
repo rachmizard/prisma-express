@@ -6,5 +6,6 @@ router.get("/", async (req, res, next) => {
 
 router.use("/users", require("./users.route"));
 router.use("/posts", require("./post.route"));
+router.use("/follows", require("./follow.route"));
 
 module.exports = router;

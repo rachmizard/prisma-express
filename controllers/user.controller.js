@@ -12,6 +12,12 @@ const getUsers = catchAsync(async (req, res) => {
   res.send({ data });
 });
 
+const getUser = catchAsync(async (req, res) => {
+  const user = await userService.getUser(req.params.id);
+
+  res.send(user);
+});
+
 const storeUser = catchAsync(async (req, res) => {
   const user = await userService.storeUser(req.body);
   res.send({ user });
@@ -24,6 +30,7 @@ const updateUser = catchAsync(async (req, res) => {
 
 module.exports = {
   getUsers,
+  getUser,
   storeUser,
   updateUser,
 };

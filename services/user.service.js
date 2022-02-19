@@ -20,6 +20,31 @@ class UserService {
     }
   }
 
+  async getUser(id) {
+    try {
+      return await prisma.user.findUnique({
+        where: {
+          id: Number(id),
+        },
+        include: {
+          followedBy: {
+            include: {
+              following: true,
+            },
+          },
+          following: {
+            include: {
+              follower: true,
+            },
+          },
+        },
+        rejectOnNotFound: true,
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async storeUser(body) {
     try {
       return await prisma.user.create({

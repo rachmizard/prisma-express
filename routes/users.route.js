@@ -11,6 +11,7 @@ router
 
 router
   .route("/:id")
+  .get(userController.getUser)
   .put(requestValidator(userValidator.UpdateUser), userController.updateUser);
 
 module.exports = router;
