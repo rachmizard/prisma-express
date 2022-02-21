@@ -40,6 +40,14 @@ class AuthService extends PrismaClient {
       data: body,
     });
   }
+
+  async logout(token) {
+    return await this.token.delete({
+      where: {
+        token,
+      },
+    });
+  }
 }
 
 module.exports = AuthService;

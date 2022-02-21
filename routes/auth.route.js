@@ -12,6 +12,7 @@ router
     "/register",
     requestValidator(authValidator.Register),
     authController.register
-  );
+  )
+  .post("/logout", verifyAuth, authController.logout);
 
 module.exports = router;

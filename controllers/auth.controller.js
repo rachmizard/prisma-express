@@ -35,8 +35,15 @@ const getProfile = catchAsync(async (req, res) => {
   res.send({ user });
 });
 
+const logout = catchAsync(async (req, res) => {
+  const { authorization } = req.headers;
+  const deletedToken = await authService.logout(authorization);
+  res.send({ message: "Token successfully revoked!" });
+});
+
 module.exports = {
   login,
   register,
   getProfile,
+  logout,
 };
