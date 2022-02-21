@@ -5,7 +5,7 @@ const followService = new FollowService();
 
 const followByUserId = catchAsync(async (req, res) => {
   const targetUserId = req.params.id;
-  const userId = req.body.userId;
+  const userId = req.user.userId;
 
   const followed = await followService.followById(userId, targetUserId);
 
@@ -14,7 +14,7 @@ const followByUserId = catchAsync(async (req, res) => {
 
 const unfollowByUserId = catchAsync(async (req, res) => {
   const targetUserId = req.params.id;
-  const userId = req.body.userId;
+  const userId = req.user.userId;
 
   const unfollowed = await followService.unfollowById(userId, targetUserId);
 

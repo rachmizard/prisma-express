@@ -13,6 +13,7 @@ const getPosts = catchAsync(async (req, res) => {
 });
 
 const storePost = catchAsync(async (req, res) => {
+  Object.assign(req.body, { authorId: req.user.userId });
   const post = await postService.storePost(req.body);
   res.send({ post });
 });
@@ -24,6 +25,7 @@ const getPostDetail = catchAsync(async (req, res) => {
 });
 
 const updatePost = catchAsync(async (req, res) => {
+  Object.assign(req.body, { authorId: req.user.userId });
   const updatedPost = await postService.updatePost(req.params.id, req.body);
   res.send({ updatedPost });
 });
@@ -35,11 +37,13 @@ const deletePost = catchAsync(async (req, res) => {
 });
 
 const postComment = catchAsync(async (req, res) => {
+  Object.assign(req.body, { authorId: req.user.userId });
   const post = await postService.postComment(req.params.id, req.body);
   res.send({ post });
 });
 
 const postCommentId = catchAsync(async (req, res) => {
+  Object.assign(req.body, { authorId: req.user.userId });
   const post = await postService.postCommentId(req.params.id, req.body);
   res.send({ post });
 });

@@ -9,7 +9,13 @@ class PostService {
         where,
         orderBy,
         include: {
-          author: true,
+          author: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+            },
+          },
           postComment: {
             include: {
               postComment: true,
@@ -29,8 +35,22 @@ class PostService {
           id: Number(id),
         },
         include: {
+          author: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+            },
+          },
           postComment: {
             include: {
+              author: {
+                select: {
+                  id: true,
+                  name: true,
+                  email: true,
+                },
+              },
               postComments: true,
             },
           },
