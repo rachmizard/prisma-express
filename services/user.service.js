@@ -1,4 +1,5 @@
 const { prisma } = require("../lib");
+const { createCryptoHashedPassword } = require("../lib/crypto");
 
 class UserService {
   constructor() {}
@@ -8,9 +9,16 @@ class UserService {
       const users = await prisma.user.findMany({
         where,
         orderBy,
-        include: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          createdAt: true,
+          updatedAt: true,
+          role: true,
+          hashedToken: false,
+          salt: false,
           posts: true,
-          postComment: true,
         },
       });
 
@@ -26,7 +34,16 @@ class UserService {
         where: {
           id: Number(id),
         },
-        include: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          createdAt: true,
+          updatedAt: true,
+          role: true,
+          hashedToken: false,
+          salt: false,
+          posts: true,
           followedBy: {
             include: {
               following: true,
@@ -47,6 +64,10 @@ class UserService {
 
   async storeUser(body) {
     try {
+      const { hash, salt } = createCryptoHashedPassword(body.password);
+
+      Object.assign(body, { hashedToken: hash, salt, password: salt });
+
       return await prisma.user.create({
         data: body,
       });
