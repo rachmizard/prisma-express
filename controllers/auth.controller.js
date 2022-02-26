@@ -37,7 +37,7 @@ const getProfile = catchAsync(async (req, res) => {
 
 const logout = catchAsync(async (req, res) => {
   const { authorization } = req.headers;
-  const deletedToken = await authService.logout(authorization);
+  await authService.logout(authorization);
   res.send({ message: "Token successfully revoked!" });
 });
 
