@@ -8,7 +8,7 @@ const getUsers = catchAsync(async (req, res) => {
   const filter = filterQueryGenerator.queryGeneratorJson(req.query.filter);
   const orderBy = filterQueryGenerator.generateOrderBy(req.query.orderBy);
   const paginate = {
-    skip: parseInt(req.query.page) - 1 || 0,
+    skip: parseInt(req.query.page) || 1,
     take: parseInt(req.query.limit) || 10,
   };
 

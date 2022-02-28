@@ -1,4 +1,4 @@
-const { prisma } = require("../lib");
+const { prisma, pagination } = require("../lib");
 const { createCryptoHashedPassword } = require("../lib/crypto");
 
 class UserService {
@@ -6,7 +6,7 @@ class UserService {
 
   async getUsers(where, orderBy, { skip, take }) {
     try {
-      const users = await prisma.user.findMany({
+      const paginate = pagination("user", {
         where,
         orderBy,
         skip,
@@ -24,7 +24,7 @@ class UserService {
         },
       });
 
-      return users;
+      return paginate;
     } catch (error) {
       throw error;
     }

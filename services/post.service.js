@@ -1,11 +1,11 @@
-const { prisma } = require("../lib");
+const { prisma, pagination } = require("../lib");
 
 class PostService {
   constructor() {}
 
   async getPosts(where, orderBy, { skip, take }) {
     try {
-      const data = await prisma.post.findMany({
+      const paginate = pagination("post", {
         where,
         orderBy,
         skip,
@@ -26,7 +26,7 @@ class PostService {
         },
       });
 
-      return data;
+      return paginate;
     } catch (error) {
       throw error;
     }
