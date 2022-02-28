@@ -13,7 +13,7 @@ const getUsers = catchAsync(async (req, res) => {
   };
 
   const data = await userService.getUsers(filter, orderBy, paginate);
-  res.send({ data });
+  res.send(data);
 });
 
 const getUser = catchAsync(async (req, res) => {
