@@ -26,8 +26,6 @@ class PostService {
         },
       });
 
-      console.log(data[data.length - 1]);
-
       return data;
     } catch (error) {
       throw error;
