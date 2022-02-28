@@ -3,11 +3,13 @@ const { prisma } = require("../lib");
 class PostService {
   constructor() {}
 
-  async getPosts(where, orderBy) {
+  async getPosts(where, orderBy, { skip, take }) {
     try {
-      return await prisma.post.findMany({
+      const data = await prisma.post.findMany({
         where,
         orderBy,
+        skip,
+        take,
         include: {
           author: {
             select: {
@@ -23,6 +25,10 @@ class PostService {
           },
         },
       });
+
+      console.log(data[data.length - 1]);
+
+      return data;
     } catch (error) {
       throw error;
     }

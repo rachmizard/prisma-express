@@ -4,11 +4,13 @@ const { createCryptoHashedPassword } = require("../lib/crypto");
 class UserService {
   constructor() {}
 
-  async getUsers(where, orderBy) {
+  async getUsers(where, orderBy, { skip, take }) {
     try {
       const users = await prisma.user.findMany({
         where,
         orderBy,
+        skip,
+        take,
         select: {
           id: true,
           name: true,

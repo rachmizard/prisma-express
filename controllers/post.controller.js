@@ -5,10 +5,14 @@ const PostService = require("../services/post.service");
 const postService = new PostService();
 
 const getPosts = catchAsync(async (req, res) => {
-  const filter = filterQueryGenerator.queryGenerator(req.query.filter);
+  const filter = filterQueryGenerator.queryGeneratorJson(req.query.filter);
   const orderBy = filterQueryGenerator.generateOrderBy(req.query.orderBy);
+  const paginate = {
+    skip: parseInt(req.query.page) - 1 || 0,
+    take: parseInt(req.query.limit) || 10,
+  };
 
-  const data = await postService.getPosts(filter, orderBy);
+  const data = await postService.getPosts(filter, orderBy, paginate);
   res.send({ data });
 });
 
