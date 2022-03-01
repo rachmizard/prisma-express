@@ -8,18 +8,19 @@ datasource db {
 }
 
 model User {
-  id          Int           @id @default(autoincrement())
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  email       String        @unique
-  name        String?
-  role        String?       @default("USER")
-  hashedToken String?
-  salt        String?
-  posts       Post[]
-  postComment PostComment[]
-  followedBy  Follows[]     @relation("follower")
-  following   Follows[]     @relation("following")
+  id           Int            @id @default(autoincrement())
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  email        String         @unique
+  name         String?
+  role         String?        @default("USER")
+  hashedToken  String?
+  salt         String?
+  posts        Post[]
+  postComment  PostComment[]
+  followedBy   Follows[]      @relation("follower")
+  following    Follows[]      @relation("following")
+  Notification Notification[]
 }
 
 model Token {
@@ -65,4 +66,16 @@ model PostComment {
   post          Post?         @relation(fields: [postId], references: [id], onDelete: Cascade)
   postComment   PostComment?  @relation("PostCommentToPostComment", fields: [postCommentId], references: [id], onDelete: Cascade)
   postComments  PostComment[] @relation("PostCommentToPostComment")
+}
+
+model Notification {
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  content   String
+  authorId  Int?
+  author    User?     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  readAt    DateTime? @default(now())
+  isRead    Boolean   @default(false)
+  metaData  Json?     @default("{}")
 }

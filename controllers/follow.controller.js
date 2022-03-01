@@ -1,13 +1,24 @@
 const { catchAsync } = require("../lib");
-const { FollowService } = require("../services");
+const { FollowService, NotificationService } = require("../services");
 
 const followService = new FollowService();
+const notificationService = new NotificationService();
 
 const followByUserId = catchAsync(async (req, res) => {
   const targetUserId = req.params.id;
   const userId = req.user.userId;
 
   const followed = await followService.followById(userId, targetUserId);
+
+  await notificationService.pushNotification({
+    content: "started following you",
+    authorId: Number(targetUserId),
+    metaData: {
+      type: "follow",
+      userId: Number(userId),
+      user: followed.following.name,
+    },
+  });
 
   res.send(followed);
 });

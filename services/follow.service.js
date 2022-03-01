@@ -23,6 +23,18 @@ class FollowService {
       }
 
       return await prisma.follows.create({
+        include: {
+          follower: {
+            select: {
+              name: true,
+            },
+          },
+          following: {
+            select: {
+              name: true,
+            },
+          },
+        },
         data: {
           follower: {
             connect: {

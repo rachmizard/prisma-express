@@ -10,5 +10,6 @@ router.use("/auth", require("./auth.route"));
 router.use("/users", verifyAuth, require("./users.route"));
 router.use("/posts", verifyAuth, require("./post.route"));
 router.use("/follows", verifyAuth, require("./follow.route"));
+router.use("/notifications", verifyAuth, require("./notification.route"));
 
 module.exports = router;

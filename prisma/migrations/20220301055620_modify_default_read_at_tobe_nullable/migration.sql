@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Notification" ALTER COLUMN "readAt" SET DATA TYPE TIMESTAMP(0);
