@@ -1,7 +1,38 @@
-const { prisma } = require("../lib");
+const { prisma, pagination } = require("../lib");
 
 class FollowService {
   constructor() {}
+
+  getFollows(where, orderBy, { skip, take }) {
+    try {
+      const paginate = pagination("follows", {
+        where,
+        orderBy,
+        skip,
+        take,
+        include: {
+          following: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+            },
+          },
+          follower: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+            },
+          },
+        },
+      });
+
+      return paginate;
+    } catch (error) {
+      throw new Error("getFollowerByUserId: " + error.message);
+    }
+  }
 
   async followById(userId, targetUserId) {
     try {

@@ -1,8 +1,20 @@
-const { catchAsync } = require("../lib");
+const { catchAsync, filterQueryGenerator } = require("../lib");
 const { FollowService, NotificationService } = require("../services");
 
 const followService = new FollowService();
 const notificationService = new NotificationService();
+
+const getFollows = catchAsync(async (req, res) => {
+  const filter = filterQueryGenerator.queryGeneratorJson(req.query.filter);
+  const orderBy = filterQueryGenerator.generateOrderBy(req.query.orderBy);
+  const paginate = {
+    skip: parseInt(req.query.page) || 1,
+    take: parseInt(req.query.limit) || 10,
+  };
+
+  const follows = await followService.getFollows(filter, orderBy, paginate);
+  res.status(200).json(follows);
+});
 
 const followByUserId = catchAsync(async (req, res) => {
   const targetUserId = req.params.id;
@@ -33,6 +45,7 @@ const unfollowByUserId = catchAsync(async (req, res) => {
 });
 
 module.exports = {
+  getFollows,
   followByUserId,
   unfollowByUserId,
 };
